@@ -29,13 +29,13 @@ export default function Nav() {
       }`}
     >
       <nav className="container-x flex h-[68px] items-center justify-between">
-        <a href="#top" className="group flex items-center gap-2.5" aria-label="Avenzo home">
+        <a href="#top" className="group flex items-center gap-2.5" aria-label="Zyvanta home">
           <span className="relative grid h-7 w-7 place-items-center">
             <span className="absolute inset-0 rotate-45 rounded-[7px] border border-cyan-core/60 transition-transform duration-500 group-hover:rotate-[135deg]" />
             <span className="h-1.5 w-1.5 rounded-full bg-cyan-glow shadow-[0_0_12px_3px_rgba(94,234,255,0.6)]" />
           </span>
           <span className="font-display text-[15px] font-semibold tracking-[0.22em] text-white">
-            AVENZO
+            ZYVANTA
           </span>
         </a>
 

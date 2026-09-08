@@ -297,7 +297,7 @@ export default function Meridian() {
         <div className="mx-auto flex max-w-[1180px] flex-col items-center justify-between gap-3 px-6 text-[13px] sm:flex-row">
           <span>Meridian Dental Lab · Ottawa, Ontario</span>
           <Link href="/#work" className="underline underline-offset-2 hover:text-white">
-            A concept site by Avenzo
+            A concept site by Zyvanta
           </Link>
         </div>
       </footer>

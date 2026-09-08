@@ -54,7 +54,7 @@ export default function About() {
             <Reveal delay={0.14}>
               <div className="mt-7 space-y-5 text-[15px] leading-relaxed text-slate-400">
                 <p>
-                  Avenzo is a web and software studio in Ottawa. We work with founders and
+                  Zyvanta is a web and software studio in Ottawa. We work with founders and
                   operations teams who have outgrown their tooling and need something built
                   properly — quickly, and without a project manager in between.
                 </p>

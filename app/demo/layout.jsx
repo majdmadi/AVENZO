@@ -1,7 +1,7 @@
 export const metadata = {
-  title: 'Concept sites — Avenzo',
+  title: 'Concept sites — Zyvanta',
   description:
-    'Three sector concept sites built by Avenzo to show how a finished build feels. The businesses are fictional.',
+    'Three sector concept sites built by Zyvanta to show how a finished build feels. The businesses are fictional.',
   robots: { index: false, follow: false },
 };
 

@@ -8,12 +8,12 @@ export default function Footer() {
             <span className="h-1 w-1 rounded-full bg-cyan-glow" />
           </span>
           <span className="font-display text-[13px] font-semibold tracking-[0.22em] text-white">
-            AVENZO
+            ZYVANTA
           </span>
         </div>
 
         <p className="text-[12.5px] text-slate-500">
-          © 2025 Avenzo. Built in Ottawa.
+          © 2025 Zyvanta. Built in Ottawa.
         </p>
 
         <div className="flex items-center gap-6 text-[12.5px] text-slate-500">

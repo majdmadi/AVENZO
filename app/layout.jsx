@@ -1,11 +1,11 @@
 import './globals.css';
 
 export const metadata = {
-  title: 'Avenzo — Engineering the web, end to end',
+  title: 'Zyvanta — Engineering the web, end to end',
   description:
-    'Avenzo is a web and software studio building fast, intelligent products: web platforms, custom applications, and automation that removes the busywork.',
+    'Zyvanta is a web and software studio building fast, intelligent products: web platforms, custom applications, and automation that removes the busywork.',
   openGraph: {
-    title: 'Avenzo — Engineering the web, end to end',
+    title: 'Zyvanta — Engineering the web, end to end',
     description:
       'Web platforms, custom applications, and automation for teams that expect their software to keep up.',
     type: 'website',

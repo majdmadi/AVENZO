@@ -272,7 +272,7 @@ export default function Fiorella() {
           <span className="font-fraunces text-[17px] font-semibold text-ink">Fiorella</span>
           <span>341 Wellington St W, Ottawa · (613) 555-0148</span>
           <Link href="/#work" className="underline underline-offset-2 hover:text-ink">
-            A concept site by Avenzo
+            A concept site by Zyvanta
           </Link>
         </div>
       </footer>

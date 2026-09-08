@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Form definitions</title>
+  </head>
+  <body>
+    <!--
+      Netlify detects forms by parsing static HTML at deploy time. Next.js
+      doesn't emit a plain HTML file for the contact page, so this file is the
+      form's declaration and the endpoint the React form POSTs to.
+
+      Every field the real form sends must be listed here, with matching
+      name attributes, or Netlify silently drops it from the submission.
+      See components/Contact.jsx.
+    -->
+    <form name="contact" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+      <input type="hidden" name="form-name" value="contact" />
+      <input type="text" name="bot-field" />
+      <input type="text" name="name" />
+      <input type="email" name="email" />
+      <input type="text" name="company" />
+      <input type="text" name="scope" />
+      <input type="text" name="budget" />
+      <textarea name="message"></textarea>
+    </form>
+  </body>
+</html>

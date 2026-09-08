@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 /**
  * Every demo carries this. These are fictional businesses built to show
- * what Avenzo makes — the badge keeps that unambiguous for any visitor.
+ * what Zyvanta makes — the badge keeps that unambiguous for any visitor.
  */
 export default function ConceptBadge({ tone = 'dark' }) {
   const dark = tone === 'dark';
@@ -17,7 +17,7 @@ export default function ConceptBadge({ tone = 'dark' }) {
       <span className="hidden sm:inline">Concept site — fictional business. </span>
       Built by{' '}
       <Link href="/#work" className="font-semibold underline underline-offset-2">
-        Avenzo
+        Zyvanta
       </Link>
     </div>
   );

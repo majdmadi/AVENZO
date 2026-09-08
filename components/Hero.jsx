@@ -39,7 +39,7 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.45 }}
           className="mt-7 max-w-[54ch] text-[15.5px] leading-relaxed text-slate-400 sm:text-base"
         >
-          Avenzo designs and builds fast web platforms, custom applications and the
+          Zyvanta designs and builds fast web platforms, custom applications and the
           automation that quietly removes the busywork — shipped by senior engineers,
           without the agency layers in between.
         </motion.p>

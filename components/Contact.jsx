@@ -11,7 +11,7 @@ const EMPTY = { name: '', email: '', company: '', scope: '', budget: '', message
 export default function Contact() {
   const [form, setForm] = useState(EMPTY);
   const [errors, setErrors] = useState({});
-  const [status, setStatus] = useState('idle'); // idle | sending | sent
+  const [status, setStatus] = useState('idle'); // idle | sending | sent | failed
 
   const update = (field) => (e) => {
     setForm((f) => ({ ...f, [field]: e.target.value }));
@@ -32,21 +32,27 @@ export default function Contact() {
     if (!validate()) return;
     setStatus('sending');
 
-    // ------------------------------------------------------------------
-    // WIRE ME UP: replace this block with a real submission, e.g.
-    //   await fetch('/api/contact', {
-    //     method: 'POST',
-    //     headers: { 'Content-Type': 'application/json' },
-    //     body: JSON.stringify(form),
-    //   });
-    // Formspree, Resend, a Power Automate HTTP trigger or an Azure Function
-    // all drop in here without touching anything else on this page.
-    // ------------------------------------------------------------------
-    console.log('[Avenzo] contact submission', form);
-    await new Promise((r) => setTimeout(r, 750));
+    // Netlify Forms. The POST target must be a static file, which is why this
+    // goes to /__forms.html rather than a route — that file also declares the
+    // form so Netlify can find it at deploy time. Email notifications are
+    // configured in the Netlify dashboard, not here.
+    try {
+      const body = new URLSearchParams({ 'form-name': 'contact', ...form });
 
-    setStatus('sent');
-    setForm(EMPTY);
+      const res = await fetch('/__forms.html', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: body.toString(),
+      });
+
+      if (!res.ok) throw new Error(`Netlify returned ${res.status}`);
+
+      setStatus('sent');
+      setForm(EMPTY);
+    } catch (err) {
+      console.error('[Zyvanta] contact submission failed', err);
+      setStatus('failed');
+    }
   };
 
   const field =
@@ -108,14 +114,10 @@ export default function Contact() {
                     <span className="text-2xl text-cyan-glow">✓</span>
                   </div>
                   <h3 className="mt-6 font-display text-[22px] font-semibold text-white">
-                    Message ready to send
+                    Message sent
                   </h3>
                   <p className="mt-3 max-w-[38ch] text-[14.5px] leading-relaxed text-slate-400">
-                    The form is captured and validated. Connect it to your inbox or endpoint in{' '}
-                    <code className="rounded bg-white/10 px-1.5 py-0.5 text-[13px] text-cyan-glow">
-                      components/Contact.jsx
-                    </code>{' '}
-                    and it will start delivering for real.
+                    Thanks — it&apos;s in. You&apos;ll hear back within one business day.
                   </p>
                   <button
                     onClick={() => setStatus('idle')}
@@ -125,7 +127,32 @@ export default function Contact() {
                   </button>
                 </div>
               ) : (
-                <form onSubmit={onSubmit} noValidate className="space-y-5">
+                <form
+                  name="contact"
+                  method="POST"
+                  data-netlify="true"
+                  data-netlify-honeypot="bot-field"
+                  onSubmit={onSubmit}
+                  noValidate
+                  className="space-y-5"
+                >
+                  <input type="hidden" name="form-name" value="contact" />
+
+                  {status === 'failed' && (
+                    <div
+                      role="alert"
+                      className="rounded-xl border border-rose-500/40 bg-rose-500/10 px-4 py-3.5 text-[13.5px] leading-relaxed text-rose-200"
+                    >
+                      That didn&apos;t send — the connection dropped, or the form service is
+                      down. Please try again in a moment.
+                    </div>
+                  )}
+                  <p className="hidden">
+                    <label>
+                      Leave this empty: <input name="bot-field" tabIndex={-1} autoComplete="off" />
+                    </label>
+                  </p>
+
                   <div className="grid gap-5 sm:grid-cols-2">
                     <div>
                       <label htmlFor="name" className="mb-2 block text-[12.5px] text-slate-400">
@@ -133,6 +160,7 @@ export default function Contact() {
                       </label>
                       <input
                         id="name"
+                        name="name"
                         value={form.name}
                         onChange={update('name')}
                         placeholder="Jane Doe"
@@ -150,6 +178,7 @@ export default function Contact() {
                       </label>
                       <input
                         id="email"
+                        name="email"
                         type="email"
                         value={form.email}
                         onChange={update('email')}
@@ -169,6 +198,7 @@ export default function Contact() {
                     </label>
                     <input
                       id="company"
+                      name="company"
                       value={form.company}
                       onChange={update('company')}
                       placeholder="Acme Inc."
@@ -181,7 +211,7 @@ export default function Contact() {
                       <label htmlFor="scope" className="mb-2 block text-[12.5px] text-slate-400">
                         What do you need?
                       </label>
-                      <select id="scope" value={form.scope} onChange={update('scope')} className={field}>
+                      <select id="scope" name="scope" value={form.scope} onChange={update('scope')} className={field}>
                         <option value="" className="bg-midnight-900">
                           Select one
                         </option>
@@ -197,7 +227,7 @@ export default function Contact() {
                       <label htmlFor="budget" className="mb-2 block text-[12.5px] text-slate-400">
                         Budget range
                       </label>
-                      <select id="budget" value={form.budget} onChange={update('budget')} className={field}>
+                      <select id="budget" name="budget" value={form.budget} onChange={update('budget')} className={field}>
                         <option value="" className="bg-midnight-900">
                           Select one
                         </option>
@@ -216,6 +246,7 @@ export default function Contact() {
                     </label>
                     <textarea
                       id="message"
+                      name="message"
                       rows={5}
                       value={form.message}
                       onChange={update('message')}
