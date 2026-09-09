@@ -3,12 +3,9 @@
 import { useState } from 'react';
 import Reveal from './Reveal';
 
-const BUDGETS = ['Under $5k', '$5k – $15k', '$15k – $50k', '$50k+', 'Not sure yet'];
-const SCOPES = ['Web platform', 'Custom application', 'Automation / integration', 'AI engineering', 'Something else'];
-
 const EMPTY = { name: '', email: '', company: '', scope: '', budget: '', message: '' };
 
-export default function Contact() {
+export default function Contact({ dict }) {
   const [form, setForm] = useState(EMPTY);
   const [errors, setErrors] = useState({});
   const [status, setStatus] = useState('idle'); // idle | sending | sent | failed
@@ -20,9 +17,9 @@ export default function Contact() {
 
   const validate = () => {
     const next = {};
-    if (!form.name.trim()) next.name = 'Please tell us your name.';
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) next.email = 'A valid email, please.';
-    if (form.message.trim().length < 12) next.message = 'A sentence or two about the project.';
+    if (!form.name.trim()) next.name = dict.errName;
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) next.email = dict.errEmail;
+    if (form.message.trim().length < 12) next.message = dict.errMessage;
     setErrors(next);
     return Object.keys(next).length === 0;
   };
@@ -66,7 +63,7 @@ export default function Contact() {
             <Reveal>
               <p className="eyebrow">
                 <span className="h-px w-8 bg-cyan-core/60" />
-                Contact
+                {dict.eyebrow}
               </p>
             </Reveal>
 
@@ -75,31 +72,31 @@ export default function Contact() {
                 id="contact-heading"
                 className="mt-5 font-display text-[clamp(2rem,4.6vw,3.4rem)] font-semibold leading-[1.05] tracking-tightest text-white"
               >
-                Tell us what you&apos;re building.
+                {dict.title}
               </h2>
             </Reveal>
 
             <Reveal delay={0.14}>
               <p className="mt-6 max-w-[46ch] text-[15px] leading-relaxed text-slate-400">
-                Send a few lines about the project and we&apos;ll come back within one business
-                day with honest scope, a timeline and a number — or a straight answer that
-                we&apos;re not the right fit.
+                {dict.lede}
               </p>
             </Reveal>
 
             <Reveal delay={0.2}>
               <dl className="mt-12 space-y-6">
                 <div>
-                  <dt className="text-[11px] uppercase tracking-[0.22em] text-slate-500">Studio</dt>
-                  <dd className="mt-1.5 text-[15px] text-slate-200">Ottawa, Ontario · Canada</dd>
+                  <dt className="text-[11px] uppercase tracking-[0.22em] text-slate-500">
+                    {dict.studioLabel}
+                  </dt>
+                  <dd className="mt-1.5 text-[15px] text-slate-200">{dict.studioValue}</dd>
                 </div>
                 <div>
                   <dt className="text-[11px] uppercase tracking-[0.22em] text-slate-500">
-                    Availability
+                    {dict.availabilityLabel}
                   </dt>
                   <dd className="mt-1.5 flex items-center gap-2.5 text-[15px] text-slate-200">
                     <span className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_10px_2px_rgba(52,211,153,0.5)]" />
-                    Taking new projects
+                    {dict.availabilityValue}
                   </dd>
                 </div>
               </dl>
@@ -114,16 +111,16 @@ export default function Contact() {
                     <span className="text-2xl text-cyan-glow">✓</span>
                   </div>
                   <h3 className="mt-6 font-display text-[22px] font-semibold text-white">
-                    Message sent
+                    {dict.sentTitle}
                   </h3>
                   <p className="mt-3 max-w-[38ch] text-[14.5px] leading-relaxed text-slate-400">
-                    Thanks — it&apos;s in. You&apos;ll hear back within one business day.
+                    {dict.sentBody}
                   </p>
                   <button
                     onClick={() => setStatus('idle')}
                     className="mt-8 rounded-full border border-white/15 px-6 py-2.5 text-[13.5px] text-slate-200 transition-colors hover:border-cyan-core/50 hover:text-white"
                   >
-                    Send another
+                    {dict.sentAgain}
                   </button>
                 </div>
               ) : (
@@ -143,27 +140,27 @@ export default function Contact() {
                       role="alert"
                       className="rounded-xl border border-rose-500/40 bg-rose-500/10 px-4 py-3.5 text-[13.5px] leading-relaxed text-rose-200"
                     >
-                      That didn&apos;t send — the connection dropped, or the form service is
-                      down. Please try again in a moment.
+                      {dict.errSend}
                     </div>
                   )}
+
                   <p className="hidden">
                     <label>
-                      Leave this empty: <input name="bot-field" tabIndex={-1} autoComplete="off" />
+                      {dict.honeypot} <input name="bot-field" tabIndex={-1} autoComplete="off" />
                     </label>
                   </p>
 
                   <div className="grid gap-5 sm:grid-cols-2">
                     <div>
                       <label htmlFor="name" className="mb-2 block text-[12.5px] text-slate-400">
-                        Name
+                        {dict.nameLabel}
                       </label>
                       <input
                         id="name"
                         name="name"
                         value={form.name}
                         onChange={update('name')}
-                        placeholder="Jane Doe"
+                        placeholder={dict.namePlaceholder}
                         className={field}
                         aria-invalid={!!errors.name}
                       />
@@ -174,7 +171,7 @@ export default function Contact() {
 
                     <div>
                       <label htmlFor="email" className="mb-2 block text-[12.5px] text-slate-400">
-                        Email
+                        {dict.emailLabel}
                       </label>
                       <input
                         id="email"
@@ -182,7 +179,7 @@ export default function Contact() {
                         type="email"
                         value={form.email}
                         onChange={update('email')}
-                        placeholder="jane@company.com"
+                        placeholder={dict.emailPlaceholder}
                         className={field}
                         aria-invalid={!!errors.email}
                       />
@@ -194,14 +191,14 @@ export default function Contact() {
 
                   <div>
                     <label htmlFor="company" className="mb-2 block text-[12.5px] text-slate-400">
-                      Company <span className="text-slate-600">(optional)</span>
+                      {dict.companyLabel} <span className="text-slate-600">{dict.companyOptional}</span>
                     </label>
                     <input
                       id="company"
                       name="company"
                       value={form.company}
                       onChange={update('company')}
-                      placeholder="Acme Inc."
+                      placeholder={dict.companyPlaceholder}
                       className={field}
                     />
                   </div>
@@ -209,13 +206,13 @@ export default function Contact() {
                   <div className="grid gap-5 sm:grid-cols-2">
                     <div>
                       <label htmlFor="scope" className="mb-2 block text-[12.5px] text-slate-400">
-                        What do you need?
+                        {dict.scopeLabel}
                       </label>
                       <select id="scope" name="scope" value={form.scope} onChange={update('scope')} className={field}>
                         <option value="" className="bg-midnight-900">
-                          Select one
+                          {dict.selectOne}
                         </option>
-                        {SCOPES.map((s) => (
+                        {dict.scopes.map((s) => (
                           <option key={s} value={s} className="bg-midnight-900">
                             {s}
                           </option>
@@ -225,13 +222,13 @@ export default function Contact() {
 
                     <div>
                       <label htmlFor="budget" className="mb-2 block text-[12.5px] text-slate-400">
-                        Budget range
+                        {dict.budgetLabel}
                       </label>
                       <select id="budget" name="budget" value={form.budget} onChange={update('budget')} className={field}>
                         <option value="" className="bg-midnight-900">
-                          Select one
+                          {dict.selectOne}
                         </option>
-                        {BUDGETS.map((b) => (
+                        {dict.budgets.map((b) => (
                           <option key={b} value={b} className="bg-midnight-900">
                             {b}
                           </option>
@@ -242,7 +239,7 @@ export default function Contact() {
 
                   <div>
                     <label htmlFor="message" className="mb-2 block text-[12.5px] text-slate-400">
-                      Project
+                      {dict.messageLabel}
                     </label>
                     <textarea
                       id="message"
@@ -250,7 +247,7 @@ export default function Contact() {
                       rows={5}
                       value={form.message}
                       onChange={update('message')}
-                      placeholder="What are you building, and what's in the way?"
+                      placeholder={dict.messagePlaceholder}
                       className={`${field} resize-none`}
                       aria-invalid={!!errors.message}
                     />
@@ -265,14 +262,10 @@ export default function Contact() {
                     className="group relative w-full overflow-hidden rounded-xl bg-cyan-core py-4 text-[14.5px] font-semibold text-midnight-950 transition-all duration-300 hover:shadow-[0_0_40px_-8px_rgba(34,211,238,0.9)] disabled:opacity-60"
                   >
                     <span className="relative z-10">
-                      {status === 'sending' ? 'Sending…' : 'Send message'}
+                      {status === 'sending' ? dict.submitting : dict.submit}
                     </span>
                     <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/45 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
                   </button>
-
-                  <p className="text-center text-[12px] text-slate-600">
-                    We reply within one business day.
-                  </p>
                 </form>
               )}
             </div>

@@ -1,15 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import LangToggle from './LangToggle';
 
-const LINKS = [
-  { href: '#services', label: 'Services' },
-  { href: '#work', label: 'Work' },
-  { href: '#about', label: 'Studio' },
-  { href: '#contact', label: 'Contact' },
-];
-
-export default function Nav() {
+export default function Nav({ dict, locale }) {
   const [solid, setSolid] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -29,7 +23,7 @@ export default function Nav() {
       }`}
     >
       <nav className="container-x flex h-[68px] items-center justify-between">
-        <a href="#top" className="group flex items-center gap-2.5" aria-label="Zyvanta home">
+        <a href="#top" className="group flex items-center gap-2.5" aria-label={dict.home}>
           <span className="relative grid h-7 w-7 place-items-center">
             <span className="absolute inset-0 rotate-45 rounded-[7px] border border-cyan-core/60 transition-transform duration-500 group-hover:rotate-[135deg]" />
             <span className="h-1.5 w-1.5 rounded-full bg-cyan-glow shadow-[0_0_12px_3px_rgba(94,234,255,0.6)]" />
@@ -40,7 +34,7 @@ export default function Nav() {
         </a>
 
         <ul className="hidden items-center gap-9 md:flex">
-          {LINKS.map((l) => (
+          {dict.links.map((l) => (
             <li key={l.href}>
               <a
                 href={l.href}
@@ -52,17 +46,19 @@ export default function Nav() {
           ))}
         </ul>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5">
+          <LangToggle locale={locale} label={dict.switchTo} />
+
           <a
             href="#contact"
             className="hidden rounded-full border border-cyan-core/40 bg-cyan-core/10 px-4 py-2 text-[13px] font-medium text-cyan-glow transition-all duration-300 hover:border-cyan-core hover:bg-cyan-core/20 hover:shadow-[0_0_24px_-4px_rgba(34,211,238,0.6)] sm:block"
           >
-            Start a project
+            {dict.cta}
           </a>
 
           <button
             onClick={() => setOpen((v) => !v)}
-            aria-label="Toggle menu"
+            aria-label={dict.toggleMenu}
             aria-expanded={open}
             className="grid h-9 w-9 place-items-center rounded-lg border border-white/10 md:hidden"
           >
@@ -84,11 +80,11 @@ export default function Nav() {
 
       <div
         className={`overflow-hidden border-t border-white/5 bg-midnight-950/95 backdrop-blur-xl transition-[max-height] duration-500 md:hidden ${
-          open ? 'max-h-64' : 'max-h-0'
+          open ? 'max-h-80' : 'max-h-0'
         }`}
       >
         <ul className="container-x flex flex-col gap-1 py-4">
-          {LINKS.map((l) => (
+          {dict.links.map((l) => (
             <li key={l.href}>
               <a
                 href={l.href}

@@ -4,42 +4,13 @@ import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import Reveal from './Reveal';
 
-/**
- * Sector concept pieces. Each card plays a short silent loop on hover
- * (desktop) or while it is on screen (touch), and degrades to a calm
- * gradient if the clip has not been added to /public/work yet.
- */
-const PIECES = [
-  {
-    slug: 'restaurant',
-    href: '/demo/fiorella',
-    name: 'Fiorella',
-    sector: 'Restaurant',
-    copy: 'Menu, reservations and a full-bleed kitchen hero — built to make a table feel worth booking.',
-    build: ['Next.js', 'Reservations API', 'Menu CMS'],
-    tint: 'from-amber-500/45 via-orange-700/25 to-rose-950/50',
-  },
-  {
-    slug: 'dental-lab',
-    href: '/demo/meridian',
-    name: 'Meridian Dental Lab',
-    sector: 'Dental laboratory',
-    copy: 'A case portal where partner clinics submit scans, track a crown through milling, and see turnaround at a glance.',
-    build: ['Client portal', 'Case tracking', 'Azure'],
-    tint: 'from-sky-400/45 via-cyan-600/25 to-indigo-950/50',
-  },
-  {
-    slug: 'landscaping',
-    href: '/demo/rooted',
-    name: 'Rooted Landscape Co.',
-    sector: 'Landscaping',
-    copy: 'An instant quote builder tied to seasonal service booking, so the phone stops being the only way in.',
-    build: ['Quote engine', 'Scheduling', 'Stripe'],
-    tint: 'from-emerald-400/45 via-green-600/25 to-teal-950/50',
-  },
-];
+const TINTS = {
+  restaurant: 'from-amber-500/45 via-orange-700/25 to-rose-950/50',
+  'dental-lab': 'from-sky-400/45 via-cyan-600/25 to-indigo-950/50',
+  landscaping: 'from-emerald-400/45 via-green-600/25 to-teal-950/50',
+};
 
-function Piece({ piece, index }) {
+function Piece({ piece, index, locale, viewSite }) {
   const videoRef = useRef(null);
   const cardRef = useRef(null);
   const [broken, setBroken] = useState(false);
@@ -74,7 +45,7 @@ function Piece({ piece, index }) {
   return (
     <Reveal delay={index * 0.1}>
       <Link
-        href={piece.href}
+        href={`/${locale}/demo/${piece.demo}`}
         ref={cardRef}
         onMouseEnter={play}
         onMouseLeave={stop}
@@ -98,7 +69,7 @@ function Piece({ piece, index }) {
           )}
 
           {broken && (
-            <div className={`h-full w-full bg-gradient-to-br ${piece.tint}`}>
+            <div className={`h-full w-full bg-gradient-to-br ${TINTS[piece.slug]}`}>
               <div className="h-full w-full bg-[radial-gradient(ellipse_at_30%_20%,rgba(255,255,255,0.12),transparent_60%)]" />
             </div>
           )}
@@ -110,7 +81,7 @@ function Piece({ piece, index }) {
           </span>
 
           <span className="absolute bottom-4 right-4 flex items-center gap-1.5 rounded-full border border-cyan-core/40 bg-midnight-950/80 px-3 py-1.5 text-[11.5px] text-cyan-glow opacity-0 backdrop-blur transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100">
-            View the site
+            {viewSite}
             <span className="transition-transform duration-300 group-hover:translate-x-0.5">→</span>
           </span>
         </div>
@@ -135,14 +106,14 @@ function Piece({ piece, index }) {
   );
 }
 
-export default function Work() {
+export default function Work({ dict, locale }) {
   return (
     <section id="work" className="relative py-32" aria-labelledby="work-heading">
       <div className="container-x">
         <Reveal>
           <p className="eyebrow">
             <span className="h-px w-8 bg-cyan-core/60" />
-            Concept work
+            {dict.eyebrow}
           </p>
         </Reveal>
 
@@ -151,21 +122,17 @@ export default function Work() {
             id="work-heading"
             className="mt-5 max-w-[22ch] font-display text-[clamp(2rem,4.6vw,3.4rem)] font-semibold leading-[1.05] tracking-tightest text-white"
           >
-            What the same care looks like in three different trades.
+            {dict.title}
           </h2>
         </Reveal>
 
         <Reveal delay={0.14}>
-          <p className="mt-5 max-w-[58ch] text-[15px] leading-relaxed text-slate-400">
-            These are concept pieces, not client sites — sector studies we built to show how we
-            approach a problem before anyone signs anything. Each one is a live page; click through
-            and use it.
-          </p>
+          <p className="mt-5 max-w-[58ch] text-[15px] leading-relaxed text-slate-400">{dict.lede}</p>
         </Reveal>
 
         <div className="mt-16 grid gap-6 md:grid-cols-3">
-          {PIECES.map((p, i) => (
-            <Piece key={p.slug} piece={p} index={i} />
+          {dict.items.map((p, i) => (
+            <Piece key={p.slug} piece={p} index={i} locale={locale} viewSite={dict.viewSite} />
           ))}
         </div>
       </div>
