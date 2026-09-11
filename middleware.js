@@ -58,8 +58,10 @@ export function middleware(request) {
 }
 
 export const config = {
-  // Skip Next internals, the Netlify form endpoint, and anything with a file
-  // extension. /__forms.html must never be redirected — the contact form
-  // POSTs to it, and a redirect would break submissions.
-  matcher: ['/((?!_next|__forms|api|work/|favicon).*\\.?[^.]*$)'],
+  // Only page routes get a locale. Anything containing a dot is a file and is
+  // left alone — that covers /robots.txt, /sitemap.xml, /og.png, /icon.svg and
+  // /__forms.html, which the contact and brief forms POST to. An earlier,
+  // looser pattern matched those and redirected them into /en/, where they
+  // 404'd; keep the dot rule.
+  matcher: ['/((?!_next|api|.*\\.).*)'],
 };
