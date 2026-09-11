@@ -24,5 +24,27 @@
       <input type="text" name="budget" />
       <textarea name="message"></textarea>
     </form>
+    <!--
+      Client project brief (app/[locale]/brief). The form posts a handful of
+      filterable fields plus one formatted `summary` blob, so the notification
+      email reads as a brief rather than sixty rows. Adding a question in
+      lib/brief.js needs no change here unless you also want it as its own
+      column — it already travels inside `summary`.
+    -->
+    <form name="brief" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+      <input type="hidden" name="form-name" value="brief" />
+      <input type="text" name="bot-field" />
+      <input type="text" name="language" />
+      <input type="text" name="contact_name" />
+      <input type="text" name="business_name" />
+      <input type="email" name="email" />
+      <input type="text" name="phone" />
+      <input type="text" name="sector" />
+      <input type="text" name="budget" />
+      <input type="text" name="main_goal" />
+      <input type="text" name="deadline" />
+      <input type="text" name="content_deadline" />
+      <textarea name="summary"></textarea>
+    </form>
   </body>
 </html>

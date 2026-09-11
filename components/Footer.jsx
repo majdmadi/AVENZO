@@ -13,7 +13,7 @@ export default function Footer({ dict, nav }) {
         </div>
 
         <p className="text-[12.5px] text-slate-500">
-          © {new Date().getFullYear()} Zyvanta. {dict.built}
+          © 2025 Zyvanta. {dict.built}
         </p>
 
         <div className="flex items-center gap-6 text-[12.5px] text-slate-500">
