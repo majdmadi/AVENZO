@@ -46,5 +46,17 @@
       <input type="text" name="content_deadline" />
       <textarea name="summary"></textarea>
     </form>
+    <!--
+      Free website teardown request (app/[locale]/audit). See
+      components/AuditForm.jsx — the field names must match.
+    -->
+    <form name="teardown" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+      <input type="hidden" name="form-name" value="teardown" />
+      <input type="text" name="bot-field" />
+      <input type="text" name="name" />
+      <input type="email" name="email" />
+      <input type="text" name="website" />
+      <input type="text" name="business" />
+    </form>
   </body>
 </html>
