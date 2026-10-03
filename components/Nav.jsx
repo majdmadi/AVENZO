@@ -3,7 +3,11 @@
 import { useEffect, useState } from 'react';
 import LangToggle from './LangToggle';
 
-export default function Nav({ dict, locale }) {
+export default function Nav({ dict, locale, base = '' }) {
+  // On the one-pager `base` is empty and the links stay in-page anchors.
+  // On a sub-page it is `/en` or `/fr`, so #services becomes /en#services
+  // instead of a dead anchor on a page that has no such section.
+  const to = (hash) => `${base}${hash}`;
   const [solid, setSolid] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -23,7 +27,7 @@ export default function Nav({ dict, locale }) {
       }`}
     >
       <nav className="container-x flex h-[68px] items-center justify-between">
-        <a href="#top" className="group flex items-center gap-2.5" aria-label={dict.home}>
+        <a href={base || "#top"} className="group flex items-center gap-2.5" aria-label={dict.home}>
           <span className="relative grid h-7 w-7 place-items-center">
             <span className="absolute inset-0 rotate-45 rounded-[7px] border border-cyan-core/60 transition-transform duration-500 group-hover:rotate-[135deg]" />
             <span className="h-1.5 w-1.5 rounded-full bg-cyan-glow shadow-[0_0_12px_3px_rgba(94,234,255,0.6)]" />
@@ -37,7 +41,7 @@ export default function Nav({ dict, locale }) {
           {dict.links.map((l) => (
             <li key={l.href}>
               <a
-                href={l.href}
+                href={to(l.href)}
                 className="relative text-[13.5px] text-slate-300 transition-colors hover:text-white after:absolute after:-bottom-1.5 after:left-0 after:h-px after:w-0 after:bg-cyan-core after:transition-all after:duration-300 hover:after:w-full"
               >
                 {l.label}
@@ -50,7 +54,7 @@ export default function Nav({ dict, locale }) {
           <LangToggle locale={locale} label={dict.switchTo} />
 
           <a
-            href="#contact"
+            href={to('#contact')}
             className="hidden rounded-full border border-cyan-core/40 bg-cyan-core/10 px-4 py-2 text-[13px] font-medium text-cyan-glow transition-all duration-300 hover:border-cyan-core hover:bg-cyan-core/20 hover:shadow-[0_0_24px_-4px_rgba(34,211,238,0.6)] sm:block"
           >
             {dict.cta}
@@ -87,7 +91,7 @@ export default function Nav({ dict, locale }) {
           {dict.links.map((l) => (
             <li key={l.href}>
               <a
-                href={l.href}
+                href={to(l.href)}
                 onClick={() => setOpen(false)}
                 className="block rounded-lg px-3 py-3 text-sm text-slate-300 hover:bg-white/5 hover:text-white"
               >

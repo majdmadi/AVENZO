@@ -20,7 +20,7 @@ export default function Page({ params }) {
 
       <main className="relative z-10">
         <Hero dict={dict.hero} />
-        <Services dict={dict.services} />
+        <Services dict={dict.services} locale={locale} />
         <Work dict={dict.work} locale={locale} />
         <About dict={dict.about} />
         <Contact dict={dict.contact} />

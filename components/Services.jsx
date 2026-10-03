@@ -1,8 +1,11 @@
 'use client';
 
+import Link from 'next/link';
 import Reveal from './Reveal';
+import { services as servicePages } from '@/lib/servicePages';
 
-export default function Services({ dict }) {
+export default function Services({ dict, locale = 'en' }) {
+  const more = locale === 'fr' ? 'En savoir plus' : 'Learn more';
   return (
     <section id="services" className="relative min-h-[100svh] py-32" aria-labelledby="services-heading">
       <div className="container-x">
@@ -29,6 +32,7 @@ export default function Services({ dict }) {
         <div className="mt-16 grid gap-5 sm:grid-cols-2">
           {dict.items.map((s, i) => (
             <Reveal key={s.n} delay={0.08 * i}>
+              <Link href={`/${locale}/services/${servicePages[i].slug[locale]}`} className="block h-full">
               <article className="group relative h-full overflow-hidden rounded-2xl glass p-7 transition-all duration-500 hover:-translate-y-1 hover:border-cyan-core/35">
                 <div className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-cyan-core/10 opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-100" />
 
@@ -55,7 +59,13 @@ export default function Services({ dict }) {
                     </li>
                   ))}
                 </ul>
+
+                <span className="mt-6 inline-flex items-center gap-1.5 text-[12.5px] text-cyan-glow/80 transition-colors group-hover:text-cyan-glow">
+                  {more}
+                  <span aria-hidden="true">→</span>
+                </span>
               </article>
+              </Link>
             </Reveal>
           ))}
         </div>
